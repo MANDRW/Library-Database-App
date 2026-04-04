@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from database import get_db_connection, init_db
+import threading
+from tools.book_scraper import scrape_books
 
 app = FastAPI(title="Library")
 
@@ -21,3 +23,10 @@ def health_check():
 @app.get("/")
 def root():
     return {"message": "Library API is running"}
+
+@app.post("/scrape-books")
+def run_scraper(count: int = 10):
+    def scraper_thread():
+        scrape_books(count)
+    threading.Thread(target=scraper_thread, daemon=True).start()
+    return {"status": "started", "target_count": count}

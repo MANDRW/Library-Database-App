@@ -37,7 +37,8 @@ def init_db():
                             id SERIAL PRIMARY KEY,
                             title VARCHAR(255) NOT NULL,
                             published_year INT NOT NULL,
-                            isbn VARCHAR(20) UNIQUE NOT NULL
+                            isbn VARCHAR(20) UNIQUE,
+                            summary TEXT
                         );
                         CREATE TABLE IF NOT EXISTS categories (
                             id SERIAL PRIMARY KEY,
