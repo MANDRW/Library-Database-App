@@ -18,6 +18,7 @@ class BookBase(BaseModel):
     title: str
     published_year: int
     isbn: str
+    summary: str
 
 class BookCreate(BookBase):
     author_ids: List[int]
