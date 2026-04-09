@@ -1,8 +1,8 @@
 from pydantic import BaseModel, field
 from typing import List
-from authors import Author
-from categories import Category
-from enums import BookStatus
+from schema_authors import Author
+from schema_categories import Category
+from schema_enums import BookStatus
 
 class BookCopyBase(BaseModel):
     barcode: str

@@ -2,8 +2,10 @@ from fastapi import FastAPI
 from database import get_db_connection, init_db
 import threading
 from tools.book_scraper import scrape_books
+from routers import router_loans as loans
 
 app = FastAPI(title="Library")
+app.include_router(loans.router)
 
 @app.on_event("startup")
 def startup_event():

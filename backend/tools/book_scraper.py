@@ -27,9 +27,9 @@ def scrape_books(target_count=10):
         return
 
     queries = [
-        ##"fiction", "computers", "science", "history", "biography",
-        ##"business", "art", "cooking", "psychology", "philosophy"
-        "crime", "fantasy", "romance", "horror"
+        "fiction", "computers", "science", "history", "biography",
+        "business", "art", "cooking", "psychology", "philosophy"
+        ##"crime", "fantasy", "romance", "horror"
     ]
     num_categories = len(queries)
     if target_count < num_categories:
