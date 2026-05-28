@@ -1,7 +1,7 @@
 from pydantic import BaseModel, EmailStr
 from datetime import datetime
 from decimal import Decimal
-from enums import AccessLevel
+from schema_enums import AccessLevel
 
 class UserBase(BaseModel):
     first_name: str

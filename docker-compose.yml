@@ -29,11 +29,8 @@ services:
       - "8001:8001"
     volumes:
       - ./backend:/app
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_HOST: db
+    env_file:
+      - .env
     depends_on:
       - db
       - qdrant
