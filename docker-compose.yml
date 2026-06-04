@@ -36,6 +36,18 @@ services:
       - qdrant
     restart: unless-stopped
 
+  bench:
+    image: python:3.13-slim
+    container_name: library_bench
+    working_dir: /app
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - api
+    command: >
+      sh -c "pip install requests matplotlib
+      && python -m tools.search_benchmarker --base-url http://api:8001 --output /app/benchmark.png"
+
 volumes:
   postgres_data:
   qdrant_data:
