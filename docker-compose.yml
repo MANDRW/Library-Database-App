@@ -45,8 +45,16 @@ services:
     depends_on:
       - api
     command: >
-      sh -c "pip install requests matplotlib
-      && python -m tools.search_benchmarker --base-url http://api:8001 --output /app/benchmark.png"
+      sh -c "pip install requests matplotlib &&
+      echo 'Waiting for API...' &&
+      until python -c 'import requests; r=requests.get(\"http://api:8001/health\"); exit(0 if r.ok else 1)' 2>/dev/null; do
+        sleep 2
+      done &&
+      echo 'API is ready, starting benchmark...' &&
+      python -m tools.search_benchmarker
+      --base-url http://api:8001
+      --output /app/benchmark.png
+      --json-output /app/benchmark.json"
 
 volumes:
   postgres_data:
