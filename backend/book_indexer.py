@@ -41,16 +41,34 @@ def ensure_collection() -> None:
         )
 
 
-def fetch_books_from_db() -> list[dict[str, Any]]:
+def clear_books_index() -> dict[str, int]:
+    ensure_collection()
+    client.delete_collection(COLLECTION_NAME)
+    ensure_collection()
+    return {"cleared": 1}
+
+
+def fetch_books_from_db(limit: int | None = None) -> list[dict[str, Any]]:
     with get_db_connection() as conn:
         with conn.cursor() as cur:
-            cur.execute(
-                """
-                SELECT id, title, summary, isbn, published_year
-                FROM books
-                ORDER BY id
-                """
-            )
+            if limit is None:
+                cur.execute(
+                    """
+                    SELECT id, title, summary, isbn, published_year
+                    FROM books
+                    ORDER BY id
+                    """
+                )
+            else:
+                cur.execute(
+                    """
+                    SELECT id, title, summary, isbn, published_year
+                    FROM books
+                    ORDER BY id
+                    LIMIT %s
+                    """,
+                    (limit,),
+                )
             rows = cur.fetchall()
 
     books = []
@@ -89,6 +107,7 @@ def get_existing_book_ids() -> set[int]:
 
     return ids
 
+
 def build_point(book: dict[str, Any]) -> models.PointStruct:
     text = build_book_text(book["title"], book["summary"])
     vector = embed_text(text)
@@ -99,6 +118,7 @@ def build_point(book: dict[str, Any]) -> models.PointStruct:
         "published_year": book["published_year"],
     }
     return models.PointStruct(id=book["id"], vector=vector, payload=payload)
+
 
 def upsert_points(points: list[models.PointStruct]) -> None:
     if not points:
@@ -139,9 +159,61 @@ def sync_books_index(only_missing: bool = False, batch_size: int | None = None) 
     }
 
 
+def sync_books_index_limit(limit: int) -> dict[str, int]:
+    ensure_collection()
+    books = fetch_books_from_db(limit=limit)
+
+    indexed = 0
+    buffer: list[models.PointStruct] = []
+
+    for book in books:
+        buffer.append(build_point(book))
+        if len(buffer) >= INDEX_BATCH_SIZE:
+            upsert_points(buffer)
+            indexed += len(buffer)
+            buffer.clear()
+
+    if buffer:
+        upsert_points(buffer)
+        indexed += len(buffer)
+
+    return {
+        "total": len(books),
+        "indexed": indexed,
+        "skipped": 0,
+    }
+
+
 def search_books(query: str, limit: int = 10) -> list[dict[str, Any]]:
     ensure_collection()
     vector = embed_text(query)
+
+    response = client.query_points(
+        collection_name=COLLECTION_NAME,
+        query=vector,
+        limit=limit,
+        with_payload=True,
+    )
+
+    results = response.points
+
+    output = []
+    for result in results:
+        payload = result.payload or {}
+        output.append(
+            {
+                "id": result.id,
+                "score": result.score,
+                "title": payload.get("title"),
+                "summary": payload.get("summary"),
+                "isbn": payload.get("isbn"),
+                "published_year": payload.get("published_year"),
+            }
+        )
+    return output
+
+def search_books_vector(vector: list[float], limit: int = 10) -> list[dict[str, Any]]:
+    ensure_collection()
 
     response = client.query_points(
         collection_name=COLLECTION_NAME,
