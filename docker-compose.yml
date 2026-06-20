@@ -36,6 +36,24 @@ services:
       - qdrant
     restart: unless-stopped
 
+  bench:
+    image: python:3.13-slim
+    container_name: library_bench
+    working_dir: /app
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - api
+    command: >
+      sh -c "pip install requests matplotlib sentence-transformers &&
+      echo 'Waiting for API...' &&
+      until python -c 'import requests; r=requests.get(\"http://api:8001/health\"); exit(0 if r.ok else 1)' 2>/dev/null; do sleep 2; done &&
+      echo 'API is ready, starting benchmark...' &&
+      python -m tools.search_benchmarker
+      --base-url http://api:8001
+      --output /app/benchmark.png
+      --json-output /app/benchmark.json"
+
 volumes:
   postgres_data:
   qdrant_data:
