@@ -1,0 +1,149 @@
+{
+  "sizes": [
+    {
+      "size": 1000,
+      "semantic": {
+        "endpoint": "http://api:8001/search/books-vector",
+        "avg_ms": 4.441009533123482,
+        "min_ms": 4.0646719999131165,
+        "max_ms": 5.063852999228402,
+        "p95_ms": 4.673272999752953
+      },
+      "basic": {
+        "endpoint": "http://api:8001/search/text",
+        "avg_ms": 10.671867300122054,
+        "min_ms": 10.280436999892117,
+        "max_ms": 11.284197999884782,
+        "p95_ms": 11.057751000407734
+      },
+      "faster_average": "semantic"
+    },
+    {
+      "size": 2000,
+      "semantic": {
+        "endpoint": "http://api:8001/search/books-vector",
+        "avg_ms": 4.497937100101505,
+        "min_ms": 4.063981999934185,
+        "max_ms": 5.238976000327966,
+        "p95_ms": 4.7317030002886895
+      },
+      "basic": {
+        "endpoint": "http://api:8001/search/text",
+        "avg_ms": 10.83986403345989,
+        "min_ms": 10.428976000184775,
+        "max_ms": 11.742745999981707,
+        "p95_ms": 11.434558000473771
+      },
+      "faster_average": "semantic"
+    },
+    {
+      "size": 3000,
+      "semantic": {
+        "endpoint": "http://api:8001/search/books-vector",
+        "avg_ms": 4.584317866617009,
+        "min_ms": 4.168541000581172,
+        "max_ms": 5.533268000363023,
+        "p95_ms": 4.870968000432185
+      },
+      "basic": {
+        "endpoint": "http://api:8001/search/text",
+        "avg_ms": 10.952627433319625,
+        "min_ms": 10.345864000555594,
+        "max_ms": 11.880144999850017,
+        "p95_ms": 11.767332999625069
+      },
+      "faster_average": "semantic"
+    },
+    {
+      "size": 5000,
+      "semantic": {
+        "endpoint": "http://api:8001/search/books-vector",
+        "avg_ms": 4.593525466589199,
+        "min_ms": 4.034657000374864,
+        "max_ms": 5.082659999970929,
+        "p95_ms": 4.827027999454003
+      },
+      "basic": {
+        "endpoint": "http://api:8001/search/text",
+        "avg_ms": 10.852801733411374,
+        "min_ms": 10.425647000374738,
+        "max_ms": 11.474191999695904,
+        "p95_ms": 11.34701099999802
+      },
+      "faster_average": "semantic"
+    },
+    {
+      "size": 10000,
+      "semantic": {
+        "endpoint": "http://api:8001/search/books-vector",
+        "avg_ms": 4.541701766659874,
+        "min_ms": 4.152024999712012,
+        "max_ms": 5.7627349997346755,
+        "p95_ms": 4.735063999760314
+      },
+      "basic": {
+        "endpoint": "http://api:8001/search/text",
+        "avg_ms": 10.982670566681918,
+        "min_ms": 10.384297000200604,
+        "max_ms": 12.187724999421334,
+        "p95_ms": 11.573398000109592
+      },
+      "faster_average": "semantic"
+    },
+    {
+      "size": 15000,
+      "semantic": {
+        "endpoint": "http://api:8001/search/books-vector",
+        "avg_ms": 4.531057966687513,
+        "min_ms": 4.11676899966551,
+        "max_ms": 4.988937000234728,
+        "p95_ms": 4.899510000541341
+      },
+      "basic": {
+        "endpoint": "http://api:8001/search/text",
+        "avg_ms": 10.776048766607952,
+        "min_ms": 10.293239000020549,
+        "max_ms": 11.885735000760178,
+        "p95_ms": 11.378895000234479
+      },
+      "faster_average": "semantic"
+    },
+    {
+      "size": 20000,
+      "semantic": {
+        "endpoint": "http://api:8001/search/books-vector",
+        "avg_ms": 4.5786726999722305,
+        "min_ms": 4.31648599987966,
+        "max_ms": 5.032107001170516,
+        "p95_ms": 4.814318999706302
+      },
+      "basic": {
+        "endpoint": "http://api:8001/search/text",
+        "avg_ms": 10.816332399978515,
+        "min_ms": 10.3182269995159,
+        "max_ms": 11.727723000149126,
+        "p95_ms": 11.391584001103183
+      },
+      "faster_average": "semantic"
+    }
+  ],
+  "corner_case": {
+    "query": "zanikające języki lokalnych społeczności",
+    "semantic": {
+      "endpoint": "http://api:8001/search/books-vector",
+      "avg_ms": 4.655227833306223,
+      "min_ms": 4.323720999309444,
+      "max_ms": 5.206980000366457,
+      "p95_ms": 4.97621800059278
+    },
+    "basic": {
+      "endpoint": "http://api:8001/search/text",
+      "avg_ms": 185.3221280999302,
+      "min_ms": 179.19571499987796,
+      "max_ms": 200.14249199994083,
+      "p95_ms": 190.11646599938103
+    },
+    "faster_average": "semantic"
+  },
+  "plot": "/app/benchmark.png"
+}
